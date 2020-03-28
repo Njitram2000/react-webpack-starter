@@ -1,8 +1,7 @@
-import React from 'react';
-import ReactDOM from "react-dom";
-import {hot} from "react-hot-loader";
 import './App.css';
-import {Martijn} from './Martijn';
+import * as ReactDOM from 'react-dom';
+import * as React from 'react';
+import { hot } from 'react-hot-loader/root';
 
 class App extends React.Component {
   render() {
@@ -18,4 +17,4 @@ ReactDOM.render(<App />, document.getElementById("root"));
 /* Mark the App class as hot for hot reloading.
  * Anything loaded within App is also hot so this notation is only needed here unless there are multiple ReactDOM.render locations
  */
-hot(module)(App);
+hot(App);

@@ -2,16 +2,22 @@ const path = require("path");
 const webpack = require("webpack");
 
 module.exports = {
-  entry: "./src/App.jsx",
+  entry: "./src/App.tsx",
   mode: "development",
   module: {
     rules: [
+      // changed from { test: /\.jsx?$/, use: { loader: 'babel-loader' }, exclude: /node_modules/ },
       {
-        test: /\.jsx?$/,
+        test: /\.(t|j)sx?$/,
+        use: { loader: 'ts-loader' },
+        exclude: /node_modules/
+      },
+      // addition - add source-map support
+      {
+        enforce: "pre",
+        test: /\.js$/,
         exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader'
-        }
+        loader: "source-map-loader"
       },
       {
         test: /\.css$/,
@@ -20,7 +26,8 @@ module.exports = {
     ]
   },
   resolve: {
-    extensions: ["*", ".js", ".jsx"],
+    // changed from extensions: [".js", ".jsx"]
+    extensions: [".ts", ".tsx", ".js", ".jsx"],
     alias: { 'react-dom': '@hot-loader/react-dom'  }
   },
   output: {
@@ -34,5 +41,7 @@ module.exports = {
     publicPath: "http://localhost:45011/dist/",
     hotOnly: true,
   },
-  plugins: [new webpack.HotModuleReplacementPlugin()]
+  plugins: [new webpack.HotModuleReplacementPlugin()],
+  // addition - add source-map support
+  devtool: "source-map"
 };
