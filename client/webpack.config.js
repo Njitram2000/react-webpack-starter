@@ -1,15 +1,18 @@
 const path = require("path");
 const webpack = require("webpack");
 
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
+
 module.exports = {
   entry: "./src/App.tsx",
+  //context: path.resolve(__dirname, "src"),
   mode: "development",
   module: {
     rules: [
       // changed from { test: /\.jsx?$/, use: { loader: 'babel-loader' }, exclude: /node_modules/ },
       {
         test: /\.(t|j)sx?$/,
-        use: { loader: 'ts-loader' },
+        loader: 'ts-loader',
         exclude: /node_modules/
       },
       // addition - add source-map support
@@ -28,7 +31,10 @@ module.exports = {
   resolve: {
     // changed from extensions: [".js", ".jsx"]
     extensions: [".ts", ".tsx", ".js", ".jsx"],
-    alias: { 'react-dom': '@hot-loader/react-dom'  }
+    alias: {
+      'react-dom': '@hot-loader/react-dom',
+      '@src': path.resolve(__dirname, 'src')
+    },
   },
   output: {
     path: path.resolve(__dirname, "dist/"),
@@ -37,11 +43,14 @@ module.exports = {
   },
   devServer: {
     contentBase: path.join(__dirname, "public/"),
-    port: 45011,
-    publicPath: "http://localhost:45011/dist/",
+    port: 9000,
+    publicPath: "http://localhost:9000/dist/",
     hotOnly: true,
   },
-  plugins: [new webpack.HotModuleReplacementPlugin()],
+  plugins: [
+    new webpack.HotModuleReplacementPlugin()
+  ],
   // addition - add source-map support
-  devtool: "source-map"
+  devtool: "source-map",
+  node: { fs: 'empty', child_process: 'empty', net: 'empty' , tls: 'empty' },
 };
